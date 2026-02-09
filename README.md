@@ -87,18 +87,15 @@ Before you begin, ensure you have the following installed:
 
 ## Deployment
 
-### Frontend (Netlify)
+### Frontend (Vercel)
 
 1.  **Push to GitHub**: Ensure your project is pushed to a GitHub repository.
-2.  **New Site from Git**: Go to [Netlify](https://www.netlify.com/) and create a new site from your repository.
-3.  **Build Settings**: The `netlify.toml` file in the root should automatically configure the build settings.
-    -   **Base directory**: `client`
-    -   **Build command**: `npm run build`
-    -   **Publish directory**: `dist`
-4.  **Environment Variables**:
-    -   After deploying the backend, go to **Site configuration > Environment variables**.
+2.  **New Project**: Go to [Vercel](https://vercel.com/) and add a new project from your repository.
+3.  **Framework Preset**: Select **Vite**.
+4.  **Root Directory**: Select `client`.
+5.  **Environment Variables**:
     -   Add `VITE_API_URL` with the URL of your deployed Render backend (e.g., `https://prompt-improvise-backend.onrender.com`).
-    -   Redeploy the site.
+6.  **Deploy**: Click **Deploy**. Use the provided `vercel.json` in the `client` directory if needed for advanced routing, but Vercel usually handles Vite apps automatically.
 
 ### Backend (Render)
 
