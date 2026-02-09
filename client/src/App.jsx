@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Zap, BarChart3, Lightbulb, RefreshCw, Cpu } from 'lucide-react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import LoadingScreen from './components/LoadingScreen';
 
 const MODEL_LIMITS = {
   'llama-3.3-70b-versatile': { rpm: 30, rpd: 1000, tpm: 12000, tpd: 100000 },
@@ -15,6 +16,35 @@ const App = () => {
   const [optimizedPrompt, setOptimizedPrompt] = useState('');
   const [executionResult, setExecutionResult] = useState('');
   const [isOptimizing, setIsOptimizing] = useState(false);
+  const [isBackendReady, setIsBackendReady] = useState(false);
+
+  useEffect(() => {
+    const checkBackend = async () => {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      try {
+        const response = await axios.get(`${API_URL}/health`);
+        if (response.data && response.data.status === 'ok') {
+          setIsBackendReady(true);
+        }
+      } catch (error) {
+        console.log('Backend not ready, retrying...', error.message);
+      }
+    };
+
+    // Initial check
+    checkBackend();
+
+    // Poll every 2 seconds if not ready
+    const interval = setInterval(() => {
+      if (!isBackendReady) {
+        checkBackend();
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isBackendReady]);
+
+  // Usage tracking state (mocked/local for now)
 
   // Usage tracking state (mocked/local for now)
   const [usage, setUsage] = useState(() => {
@@ -86,6 +116,10 @@ const App = () => {
   const originalTokens = estimateTokens(prompt);
   const optimizedTokens = estimateTokens(optimizedPrompt);
   const tokensSaved = originalTokens - optimizedTokens;
+
+  if (!isBackendReady) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-6 font-sans">
