@@ -1,28 +1,53 @@
 # Prompt Improvise
 
-Prompt Improvise is a full-stack application designed to optimize and execute AI prompts using the Groq API. It helps users refine their prompts for token efficiency and better results, leveraging the power of large language models.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
+![React](https://img.shields.io/badge/react-%5E19.2.0-blue.svg)
+
+Prompt Improvise is a modern, full-stack application designed to optimize and execute AI prompts using the Groq API. By leveraging powerful Large Language Models (LLMs), it assists users in refining their prompts for maximum token efficiency and effectiveness, ensuring better results from AI interactions.
+
+![Application Screenshot](Screenshot_prompt_improvise.png)
+
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
--   **Smart Prompt Optimization**: Automatically rewrite user prompts to be more token-efficient and effective.
--   **Multi-Model Support**: Choose from various Groq-hosted models like `llama-3.3-70b-versatile` and `llama-3.1-8b-instant`.
--   **Real-time Usage Tracking**: Monitor token usage and requests per minute/day to stay within API limits.
--   **Clean & Modern UI**: A responsive interface built with React and Tailwind CSS.
--   **Secure Backend**: Express.js server handles API requests securely using `groq-sdk`.
+-   **Smart Prompt Optimization**: Automatically analyzes and rewrites user prompts to be more concise and improved for LLM comprehension.
+-   **Multi-Model Support**: Seamlessly switch between various Groq-hosted models such as `llama-3.3-70b-versatile` and `llama-3.1-8b-instant`.
+-   **Real-time Usage Tracking**: Monitor token consumption and daily request limits to stay within API quotas.
+-   **Clean & Modern UI**: A responsive, user-friendly interface built with React and Tailwind CSS.
+-   **Secure Backend**: An Express.js server that securely handles API keys and requests using the `groq-sdk`.
 
 ## Tech Stack
 
--   **Frontend**: React, Vite, Tailwind CSS, Lucide React
--   **Backend**: Node.js, Express, Groq SDK
--   **Tools**: npm, Nodemon, ESLint
+### Frontend
+-   **React** (v19)
+-   **Vite** - Build tool
+-   **Tailwind CSS** - Styling
+-   **Lucide React** - Icons
+
+### Backend
+-   **Node.js**
+-   **Express**
+-   **Groq SDK** - For AI model interaction
 
 ## Prerequisites
 
-Before you begin, ensure you have met the following requirements:
-
--   Node.js (v18 or higher) installed.
--   npm (v9 or higher) installed.
--   A valid [Groq API Key](https://console.groq.com/keys).
+Before you begin, ensure you have the following installed:
+-   [Node.js](https://nodejs.org/) (v18 or higher)
+-   [npm](https://www.npmjs.com/) (v9 or higher)
+-   A valid [Groq API Key](https://console.groq.com/keys)
 
 ## Installation
 
@@ -32,28 +57,29 @@ Before you begin, ensure you have met the following requirements:
     cd prompt-improvise
     ```
 
-2.  **Install dependencies**:
-    
-    *   For the server:
-        ```bash
-        cd server
-        npm install
-        ```
-    *   For the client:
-        ```bash
-        cd ../client
-        npm install
-        ```
+2.  **Install Server Dependencies**:
+    ```bash
+    cd server
+    npm install
+    ```
+
+3.  **Install Client Dependencies**:
+    ```bash
+    cd ../client
+    npm install
+    ```
 
 ## Configuration
 
-1.  Create a `.env` file in the `server` directory:
+1.  **Server Configuration**:
+    Navigate to the `server` directory and create a `.env` file based on the example.
     ```bash
     cd server
-    touch .env
+    cp .env.example .env
     ```
 
-2.  Add your Groq API key to the `.env` file:
+2.  **Environment Variables**:
+    Open the `.env` file and add your Groq API key:
     ```env
     GROQ_API_KEY=your_groq_api_key_here
     PORT=3000
@@ -62,7 +88,7 @@ Before you begin, ensure you have met the following requirements:
 ## Usage
 
 1.  **Start the Backend Server**:
-    Open a terminal and run:
+    In your terminal (from the root or `server` directory):
     ```bash
     cd server
     npm run dev
@@ -75,25 +101,58 @@ Before you begin, ensure you have met the following requirements:
     cd client
     npm run dev
     ```
-    The client will start (usually on `http://localhost:5173`).
+    The application will typically start on `http://localhost:5173`. Open this URL in your browser.
 
-3.  **Open the Application**:
-    Navigate to the URL provided by the client terminal (e.g., `http://localhost:5173`) in your web browser.
-
-4.  **Optimize & Execute**:
+3.  **Optimize & Execute**:
     -   Enter your prompt in the text area.
-    -   Click "Smart Optimize (Groq)" to refine it.
-    -   Select a target model and click "Execute API Call" to get the result.
+    -   Click **"Smart Optimize (Groq)"** to refine it.
+    -   Select a target model and click **"Execute API Call"** to get the AI's response.
+
+## API Documentation
+
+The backend exposes the following endpoints:
+
+### `POST /api/optimize`
+Optimizes a given prompt for better performance.
+-   **Body**: `{ "prompt": "Your prompt here" }`
+-   **Response**: Returns the optimized prompt and comparison metrics.
+
+### `POST /api/execute`
+Executes a prompt against a specified Groq model.
+-   **Body**: 
+    ```json
+    {
+      "prompt": "Your optimized prompt",
+      "model": "llama-3.3-70b-versatile"
+    }
+    ```
+-   **Response**: Returns the model's completion.
+
+## Project Structure
+
+```
+prompt-improvise/
+├── client/                 # Frontend React application
+│   ├── src/                # Source code
+│   ├── public/             # Static assets
+│   └── package.json        # Client dependencies
+├── server/                 # Backend Express application
+│   ├── services/           # Business logic (Groq integration)
+│   ├── index.js            # Main server entry point
+│   ├── .env.example        # Environment variable template
+│   └── package.json        # Server dependencies
+├── README.md               # Project documentation
+└── LICENSE                 # License file
+```
 
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
-
 1.  Fork the repository.
-2.  Create a new branch: `git checkout -b feature/your-feature-name`.
-3.  Make your changes and commit them: `git commit -m 'Add some feature'`.
-4.  Push to the branch: `git push origin feature/your-feature-name`.
-5.  Submit a pull request.
+2.  Create a new branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
 ## License
 
