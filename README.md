@@ -85,6 +85,34 @@ Before you begin, ensure you have the following installed:
     PORT=3000
     ```
 
+## Deployment
+
+### Frontend (Netlify)
+
+1.  **Push to GitHub**: Ensure your project is pushed to a GitHub repository.
+2.  **New Site from Git**: Go to [Netlify](https://www.netlify.com/) and create a new site from your repository.
+3.  **Build Settings**: The `netlify.toml` file in the root should automatically configure the build settings.
+    -   **Base directory**: `client`
+    -   **Build command**: `npm run build`
+    -   **Publish directory**: `dist`
+4.  **Environment Variables**:
+    -   After deploying the backend, go to **Site configuration > Environment variables**.
+    -   Add `VITE_API_URL` with the URL of your deployed Render backend (e.g., `https://prompt-improvise-backend.onrender.com`).
+    -   Redeploy the site.
+
+### Backend (Render)
+
+1.  **New Web Service**: Go to [Render](https://render.com/) and create a new Web Service.
+2.  **Connect Repository**: Connect your GitHub repository.
+3.  **Configuration**:
+    -   **Root Directory**: `server`
+    -   **Build Command**: `npm install`
+    -   **Start Command**: `npm start`
+4.  **Environment Variables**:
+    -   Add `GROQ_API_KEY` with your actual API key.
+    -   `PORT` is automatically handled by Render, but the server listens on `process.env.PORT` so it will work.
+5.  **Blueprint (Optional)**: Alternatively, you can use the provided `render.yaml` to create a Blueprint instance.
+
 ## Usage
 
 1.  **Start the Backend Server**:

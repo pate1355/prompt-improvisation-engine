@@ -42,7 +42,8 @@ const App = () => {
 
     try {
       // Call our backend instead of direct OpenAI/LM Studio
-      const response = await axios.post('http://localhost:3000/api/optimize', { prompt });
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const response = await axios.post(`${API_URL}/api/optimize`, { prompt });
 
       // Backend returns { result: "..." }
       if (response.data && response.data.result) {
@@ -66,7 +67,8 @@ const App = () => {
     // Limits check could go here, but we'll focus on functionality
 
     try {
-      const response = await axios.post('http://localhost:3000/api/execute', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const response = await axios.post(`${API_URL}/api/execute`, {
         prompt: inputPrompt,
         model: selectedModel
       });
